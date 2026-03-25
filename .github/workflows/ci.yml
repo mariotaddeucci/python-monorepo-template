@@ -59,7 +59,12 @@ jobs:
 
       - name: Run prek on changed files (push)
         if: github.event_name == 'push'
-        run: uv run prek run --from-ref ${{ github.event.before }} --to-ref ${{ github.sha }}
+        run: |
+          if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            uv run prek run --from-ref ${{ github.sha }}^ --to-ref ${{ github.sha }}
+          else
+            uv run prek run --from-ref ${{ github.event.before }} --to-ref ${{ github.sha }}
+          fi
 
   test:
     name: Test / Python ${{ matrix.python-version }}
