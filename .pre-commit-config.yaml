@@ -7,3 +7,32 @@ repos:
         args: [--fix]
       - id: ruff-format
         name: "ruff format"
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-json
+        name: "json check"
+      - id: check-toml
+        name: "toml check"
+      - id: check-yaml
+        name: "yaml check"
+      - id: end-of-file-fixer
+        name: "end of file fixer"
+      - id: trailing-whitespace
+        name: "trailing whitespace"
+      - id: mixed-line-ending
+        name: "mixed line ending"
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint
+        name: "markdown lint"
+        args: [--fix]
+
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: v2.5.1
+    hooks:
+      - id: pyproject-fmt
+        name: "pyproject.toml format"
