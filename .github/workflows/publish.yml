@@ -1,0 +1,84 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "my-sample-package:*"
+      - "my-sample-package-provider-core:*"
+      - "my-sample-package-provider-app:*"
+      - "my-sample-package-provider-standalone:*"
+
+jobs:
+  validate-tag:
+    name: Validate tag / branch policy
+    runs-on: ubuntu-latest
+    outputs:
+      pkg-name: ${{ steps.meta.outputs.pkg_name }}
+      version: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # needed to inspect branch history
+
+      - name: Extract package name and version from tag
+        id: meta
+        # tag format: <package-name>:<version>  e.g. my-sample-package-provider-core:1.2.3
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          PKG="${TAG%%:*}"
+          VERSION="${TAG#*:}"
+          echo "pkg_name=${PKG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}"  >> "$GITHUB_OUTPUT"
+
+      - name: Enforce branch policy
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          # Check if the tagged commit is reachable from origin/main
+          IS_ON_MAIN=$(git branch -r --contains "$GITHUB_SHA" | grep -c 'origin/main' || true)
+
+          # Check if the version string contains a devN suffix (e.g. 1.0.0dev1, 1.0.0.dev2)
+          IS_DEV=$(echo "$VERSION" | grep -cP '\.?dev\d+$' || true)
+
+          if [ "$IS_ON_MAIN" -gt 0 ]; then
+            echo "Commit is on main — release tag accepted."
+          elif [ "$IS_DEV" -gt 0 ]; then
+            echo "Commit is NOT on main, but version has a dev suffix — pre-release tag accepted."
+          else
+            echo "ERROR: Tag '${TAG}' points to a commit that is not on main."
+            echo "Only tags with a devN suffix (e.g. my-sample-package-provider-core:1.0.0dev1) are allowed on non-main branches."
+            exit 1
+          fi
+
+  publish:
+    name: Build & publish ${{ needs.validate-tag.outputs.pkg-name }}:${{ needs.validate-tag.outputs.version }}
+    runs-on: ubuntu-latest
+    needs: validate-tag
+    permissions:
+      id-token: write   # required for PyPI trusted publishing
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python for the target package
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: packages/${{ needs.validate-tag.outputs.pkg-name }}/.python-version
+
+      - name: Install dependencies
+        run: uv sync --package ${{ needs.validate-tag.outputs.pkg-name }}
+
+      - name: Build package
+        run: uv build --package ${{ needs.validate-tag.outputs.pkg-name }}
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/

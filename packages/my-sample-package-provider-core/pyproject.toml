@@ -1,0 +1,38 @@
+[project]
+name = "my-sample-package-provider-core"
+dynamic = ["version"]
+description = "Core utilities and shared logic for the monorepo"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.9",
+]
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+tag-pattern = "^my-sample-package-provider-core:(?P<version>.+)$"
+raw-options = { root = "../..", version_scheme = "no-guess-dev" }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/core/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/core"]
+
+[tool.uv]
+python = "3.11"
+
+[tool.taskipy.tasks]
+test    = { cmd = "pytest tests/", help = "Run core tests" }
+lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check core sources" }
+autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format core sources" }
+format  = { cmd = "ruff format src/ tests/", help = "Format core sources" }

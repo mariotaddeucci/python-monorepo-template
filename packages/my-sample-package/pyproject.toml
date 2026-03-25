@@ -1,0 +1,46 @@
+[project]
+name = "my-sample-package"
+dynamic = ["version"]
+description = "Proxy package that re-exports all my-sample-package providers"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+core = ["my-sample-package-provider-core"]
+app = ["my-sample-package-provider-app"]
+standalone = ["my-sample-package-provider-standalone"]
+all = [
+    "my-sample-package-provider-core",
+    "my-sample-package-provider-app",
+    "my-sample-package-provider-standalone",
+]
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+tag-pattern = "^my-sample-package:(?P<version>.+)$"
+raw-options = { root = "../..", version_scheme = "no-guess-dev" }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/my_sample_package/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/my_sample_package"]
+
+[tool.uv]
+python = "3.11"
+
+[tool.uv.sources]
+my-sample-package-provider-core = { workspace = true }
+my-sample-package-provider-app = { workspace = true }
+my-sample-package-provider-standalone = { workspace = true }
+
+[tool.taskipy.tasks]
+test    = { cmd = "pytest tests/", help = "Run my-sample-package tests" }
+lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check my-sample-package sources" }
+autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format my-sample-package sources" }
+format  = { cmd = "ruff format src/ tests/", help = "Format my-sample-package sources" }

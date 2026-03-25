@@ -1,0 +1,77 @@
+[project]
+name = "monorepo"
+version = "0.1.0"
+description = "Python monorepo template using uv workspaces"
+requires-python = ">=3.11"
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[dependency-groups]
+dev = [
+    "hatch-vcs>=0.4",
+    "prek>=0.3",
+    "pyrefly>=0.57.1",
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.9",
+    "taskipy>=1.14.1",
+    "tqdm>=4.67.3",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "dist",
+    "build",
+    "*/_version.py",   # gerado automaticamente pelo hatch-vcs
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "app", "standalone", "my_sample_package"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "-v --tb=short"
+testpaths = ["packages"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["packages"]
+omit = [
+    "*/tests/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.taskipy.tasks]
+test    = { cmd = "uv run --directory packages/my-sample-package-provider-core task test && uv run --directory packages/my-sample-package-provider-app task test && uv run --directory packages/my-sample-package-provider-standalone task test && uv run --directory packages/my-sample-package task test",    help = "Run tests in all packages" }
+lint    = { cmd = "uv run --directory packages/my-sample-package-provider-core task lint && uv run --directory packages/my-sample-package-provider-app task lint && uv run --directory packages/my-sample-package-provider-standalone task lint && uv run --directory packages/my-sample-package task lint",    help = "Lint all packages" }
+autofix = { cmd = "uv run --directory packages/my-sample-package-provider-core task autofix && uv run --directory packages/my-sample-package-provider-app task autofix && uv run --directory packages/my-sample-package-provider-standalone task autofix && uv run --directory packages/my-sample-package task autofix", help = "Autofix all packages" }
+format  = { cmd = "uv run --directory packages/my-sample-package-provider-core task format && uv run --directory packages/my-sample-package-provider-app task format && uv run --directory packages/my-sample-package-provider-standalone task format && uv run --directory packages/my-sample-package task format",  help = "Format all packages" }

@@ -1,0 +1,30 @@
+[project]
+name = "my-sample-package-provider-standalone"
+dynamic = ["version"]
+description = "Standalone utility package, no relation to core or app"
+readme = "README.md"
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+tag-pattern = "^my-sample-package-provider-standalone:(?P<version>.+)$"
+raw-options = { root = "../..", version_scheme = "no-guess-dev" }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/standalone/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/standalone"]
+
+[tool.uv]
+python = "3.13"
+
+[tool.taskipy.tasks]
+test    = { cmd = "pytest tests/", help = "Run standalone tests" }
+lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check standalone sources" }
+autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format standalone sources" }
+format  = { cmd = "ruff format src/ tests/", help = "Format standalone sources" }
