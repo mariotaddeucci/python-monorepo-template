@@ -36,3 +36,4 @@ test    = { cmd = "pytest tests/", help = "Run core tests" }
 lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check core sources" }
 autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format core sources" }
 format  = { cmd = "ruff format src/ tests/", help = "Format core sources" }
+docs    = { cmd = "mkdocs serve", help = "Serve core docs" }

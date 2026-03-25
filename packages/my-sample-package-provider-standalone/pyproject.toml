@@ -28,3 +28,4 @@ test    = { cmd = "pytest tests/", help = "Run standalone tests" }
 lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check standalone sources" }
 autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format standalone sources" }
 format  = { cmd = "ruff format src/ tests/", help = "Format standalone sources" }
+docs    = { cmd = "mkdocs serve", help = "Serve standalone docs" }

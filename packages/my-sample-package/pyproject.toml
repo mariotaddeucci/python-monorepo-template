@@ -44,3 +44,4 @@ test    = { cmd = "pytest tests/", help = "Run my-sample-package tests" }
 lint    = { cmd = "ruff check src/ tests/ && pyrefly check src/", help = "Lint and type-check my-sample-package sources" }
 autofix = { cmd = "ruff check --fix src/ tests/ && ruff format src/ tests/", help = "Autofix and format my-sample-package sources" }
 format  = { cmd = "ruff format src/ tests/", help = "Format my-sample-package sources" }
+docs    = { cmd = "mkdocs serve", help = "Serve my-sample-package docs" }

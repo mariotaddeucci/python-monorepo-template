@@ -1,0 +1,18 @@
+INHERIT: mkdocs.base.yml
+
+site_name: Python Monorepo Template
+site_description: Documentation for the Python Monorepo Template
+repo_url: https://github.com/mariotaddeucci/python-monorepo-template
+repo_name: python-monorepo-template
+
+docs_dir: docs/
+site_dir: site/
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - Contributing: contributing.md
+
+plugins:
+  - search
