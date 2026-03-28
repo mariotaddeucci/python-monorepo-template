@@ -65,6 +65,7 @@ Não são wrappers de bibliotecas. Cada agente raciocina, delega e toma decisõe
 | Scraper | Beatriz | `.github/agents/scraper.agent.md` | Extração de dados web: selectolax, BeautifulSoup4, Playwright. Inspeciona antes de codificar. |
 | Engenheiro de Dados | Rafael | `.github/agents/engenheiro-dados.agent.md` | Pipelines analíticos com Polars, DuckDB e PySpark. Decide a stack certa para cada escala. |
 | Documentador | Ana | `.github/agents/documentador.agent.md` | Documentação MkDocs Material. Consulta docs oficiais via MCP Playwright antes de escrever. |
+| Revisor | Clara | `.github/agents/revisor.agent.md` | Revisão de código focada em manutenibilidade: adequação ao projeto, legibilidade, fluxos, testes, erros e logs. Nunca over-engineering. |
 
 ## Skills disponíveis
 
@@ -80,6 +81,7 @@ armadilhas e exemplos de código que os agentes carregam quando necessário.
 | pyspark | `.github/skills/pyspark/SKILL.md` | Processamento distribuído para dados >50GB |
 | webscraping | `.github/skills/webscraping/SKILL.md` | Extração de dados web: decisão de stack e padrões |
 | copilot-project-structure | `.github/skills/copilot-project-structure/SKILL.md` | Filosofia e guia para estruturar projetos com agentes, skills, instruções e prompt files |
+| logging | `.github/skills/logging/SKILL.md` | Logging Python com stdlib: logger por módulo, níveis, contexto estruturado e testes com caplog |
 
 ## Instruções customizadas por contexto
 
