@@ -1,9 +1,11 @@
 ---
 name: Desenvolvedor Python
 description: >
-  Desenvolvedor Python sênior para este monorepo. Implementa funcionalidades, refatora código,
-  corrige bugs e escreve testes. Domina httpx para integrações HTTP e conhece os padrões
-  do projeto (uv, ruff, pyrefly, pytest). Use para tarefas gerais de desenvolvimento Python.
+  Desenvolvedor Python sênior para este monorepo. Implementa funcionalidades complexas,
+  refatora código, corrige bugs não triviais e escreve testes. Domina httpx, logging e
+  os padrões do projeto. Use para tarefas que exigem raciocínio aprofundado sobre
+  design, arquitetura ou lógica de negócio complexa.
+model: claude-sonnet-4.5 (copilot)
 tools:
   - read
   - edit
@@ -12,6 +14,7 @@ tools:
   - search/usages
   - run/terminal
 agents:
+  - Desenvolvedor Python Small
   - Scraper
   - Engenheiro de Dados
   - Documentador
@@ -19,6 +22,10 @@ handoffs:
   - label: Documentar implementacao
     agent: Documentador
     prompt: Gere a documentação MkDocs Material para o código que acabamos de implementar.
+    send: false
+  - label: Revisar implementacao
+    agent: Revisor
+    prompt: Revise o código implementado acima com foco em manutenibilidade.
     send: false
 ---
 

@@ -59,13 +59,15 @@ Resumo rápido:
 Agentes são **personas** — profissionais com nome, valores e domínio de atuação.
 Não são wrappers de bibliotecas. Cada agente raciocina, delega e toma decisões.
 
-| Agente | Persona | Arquivo | Responsabilidade |
-|--------|---------|---------|-----------------|
-| Desenvolvedor Python | Lucas | `.github/agents/desenvolvedor.agent.md` | Generalista Python: implementação, refatoração, bugs, testes. Orquestra os demais agentes. |
-| Scraper | Beatriz | `.github/agents/scraper.agent.md` | Extração de dados web: selectolax, BeautifulSoup4, Playwright. Inspeciona antes de codificar. |
-| Engenheiro de Dados | Rafael | `.github/agents/engenheiro-dados.agent.md` | Pipelines analíticos com Polars, DuckDB e PySpark. Decide a stack certa para cada escala. |
-| Documentador | Ana | `.github/agents/documentador.agent.md` | Documentação MkDocs Material. Consulta docs oficiais via MCP Playwright antes de escrever. |
-| Revisor | Clara | `.github/agents/revisor.agent.md` | Revisão de código focada em manutenibilidade: adequação ao projeto, legibilidade, fluxos, testes, erros e logs. Nunca over-engineering. |
+| Agente | Persona | Modelo | Arquivo | Responsabilidade |
+|--------|---------|--------|---------|-----------------|
+| Coordenador | Enzo | claude-opus-4-5 | `.github/agents/coordenador.agent.md` | Ponto de entrada para demandas não triviais. Analisa o problema, mapeia o contexto, decompõe em tarefas e delega ao agente mais adequado. |
+| Desenvolvedor Python | Lucas | claude-sonnet-4-5 | `.github/agents/desenvolvedor.agent.md` | Features complexas, refatoração, bugs não triviais, decisões de design. Orquestra os demais agentes. |
+| Desenvolvedor Python Small | Lucas Jr. | claude-haiku-3-5 | `.github/agents/desenvolvedor-small.agent.md` | Tarefas diretas e bem definidas: testes, linting, renomeações, correções pontuais. Rápido e eficiente. |
+| Scraper | Beatriz | — | `.github/agents/scraper.agent.md` | Extração de dados web: selectolax, BeautifulSoup4, Playwright. Inspeciona antes de codificar. |
+| Engenheiro de Dados | Rafael | — | `.github/agents/engenheiro-dados.agent.md` | Pipelines analíticos com Polars, DuckDB e PySpark. Decide a stack certa para cada escala. |
+| Documentador | Ana | — | `.github/agents/documentador.agent.md` | Documentação MkDocs Material. Consulta docs oficiais via MCP Playwright antes de escrever. |
+| Revisor | Clara | — | `.github/agents/revisor.agent.md` | Revisão de código focada em manutenibilidade: adequação ao projeto, legibilidade, fluxos, testes, erros e logs. Nunca over-engineering. |
 
 ## Skills disponíveis
 
