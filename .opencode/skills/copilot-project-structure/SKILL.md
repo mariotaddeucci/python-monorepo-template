@@ -44,14 +44,28 @@ Skills são REFERÊNCIAS que agentes consultam.
 Agentes são PROFISSIONAIS que tomam decisões.
 ```
 
-### Instruções customizadas são contratos de contexto
+### Instruções customizadas são a IA do CONTRIBUTING
 
-Instruções (`.github/instructions/*.instructions.md`) são regras automáticas que o
-Copilot aplica quando o contexto bate com o glob `applyTo:`. Não precisam ser
-invocadas — são silenciosas e sempre ativas.
+Instruções (`.github/instructions/*.instructions.md`) são a tradução do `CONTRIBUTING.md`
+para a linguagem do Copilot — regras automáticas aplicadas silenciosamente quando o
+contexto bate com o glob `applyTo:`. Não precisam ser invocadas pelo usuário.
+
+**Regra fundamental: instruções nunca contradizem o CONTRIBUTING.**
+
+O `CONTRIBUTING.md` é a fonte da verdade do projeto. Instruções são um subconjunto
+ativo dele — podem restringir, detalhar ou especializar, mas nunca divergir.
+
+```
+CONTRIBUTING.md         → documento humano, fonte da verdade
+instructions/*.md       → subconjunto ativo, lido pelo Copilot automaticamente
+```
+
+Se o `CONTRIBUTING.md` diz "use `uv`", a instrução não pode sugerir `pip`.
+Se o `CONTRIBUTING.md` diz "funções `def test_*`", a instrução não pode usar classes de teste.
+Quando houver conflito, o `CONTRIBUTING.md` prevalece — a instrução deve ser corrigida.
 
 Use para: padrões de testes, convenções de nomenclatura, regras de estilo por tipo
-de arquivo.
+de arquivo — sempre derivados do que já está documentado no CONTRIBUTING.
 
 ### Prompt files são automações de tarefas recorrentes
 
@@ -158,7 +172,7 @@ argument-hint: "[contexto ou tarefa específica]"
 
 ---
 
-### `.github/instructions/<contexto>.instructions.md` — Contrato automático
+### `.github/instructions/<contexto>.instructions.md` — IA do CONTRIBUTING
 
 ```markdown
 ---
@@ -167,12 +181,16 @@ applyTo: "tests/**/*.py,**/test_*.py"
 
 # [Título do contrato]
 
-[Regras que o Copilot deve seguir automaticamente quando o contexto bate com o glob.]
+[Regras derivadas do CONTRIBUTING.md que o Copilot deve seguir automaticamente
+ quando o contexto bate com o glob. Nunca contradiga o CONTRIBUTING.]
 ```
 
 **Regras para instruções:**
 - `applyTo:` usa glob — seja preciso (não use `**/*` sem necessidade)
 - Use para padrões que devem ser aplicados *sempre*, sem invocação manual
+- **Todo conteúdo deve ser derivado ou compatível com o `CONTRIBUTING.md`**
+- Antes de escrever uma instrução, verifique se ela contradiz algo no CONTRIBUTING
+- Se o CONTRIBUTING mudar, as instruções devem ser atualizadas junto — nunca o contrário
 - Casos de uso típicos: padrões de teste, convenções de nomenclatura, regras de linting
 
 ---
@@ -294,6 +312,15 @@ ERRADO: skill httpx com seção "Quando eu devo usar httpx, eu prefiro..."
 CERTO:  skill httpx com padrões canônicos, exemplos e lista de regras objetivas
 ```
 
+### Instrução que contradiz o CONTRIBUTING
+```
+ERRADO: CONTRIBUTING diz "use uv", instrução diz "você pode usar pip para instalar"
+        CONTRIBUTING diz "def test_*", instrução usa classes de teste
+
+CERTO:  instrução reforça e detalha o que o CONTRIBUTING já estabelece —
+        nunca inventa regras novas que conflitem com o documento humano
+```
+
 ### Instrução para tudo
 ```
 ERRADO: applyTo: "**/*"  — regras globais demais perdem precisão
@@ -317,6 +344,7 @@ Ao iniciar um projeto novo, passe por este checklist:
 - [ ] Identifiquei os **perfis profissionais** que este projeto precisa → criar agentes
 - [ ] Identifiquei as **bibliotecas/frameworks** mais usados → criar skills
 - [ ] Identifiquei **padrões por tipo de arquivo** que devem ser automáticos → criar instruções
+- [ ] Cada instrução foi verificada contra o `CONTRIBUTING.md` — sem contradições
 - [ ] Identifiquei **tarefas repetitivas** que podem virar comandos → criar prompt files
 - [ ] Cada agente tem nome, lema e sabe quando delegar
 - [ ] Cada skill tem seção de testes e exemplos correto/errado
