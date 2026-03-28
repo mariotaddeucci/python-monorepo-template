@@ -56,22 +56,30 @@ Resumo rápido:
 
 ## Agentes disponíveis
 
-| Agente | Arquivo | Responsabilidade |
-|--------|---------|-----------------|
-| Desenvolvedor Python | `.github/agents/desenvolvedor.agent.md` | Agente geral para implementação, refatoração e correção de bugs Python. Orquestra subagentes especializados. |
-| httpx-dev | `.github/agents/httpx-dev.agent.md` | Especialista em HTTP com httpx, httpx-retries e tenacity. |
-| polars-dev | `.github/agents/polars-dev.agent.md` | Especialista em dados tabulares com Polars (lazy evaluation). |
-| scraper-dev | `.github/agents/scraper-dev.agent.md` | Especialista em web scraping (selectolax, BeautifulSoup4, Playwright). |
-| Documentador | `.github/agents/documentador.agent.md` | Gera e mantém documentação MkDocs Material consultando a documentação oficial via Playwright. |
+Agentes são **personas** — profissionais com nome, valores e domínio de atuação.
+Não são wrappers de bibliotecas. Cada agente raciocina, delega e toma decisões.
+
+| Agente | Persona | Arquivo | Responsabilidade |
+|--------|---------|---------|-----------------|
+| Desenvolvedor Python | Lucas | `.github/agents/desenvolvedor.agent.md` | Generalista Python: implementação, refatoração, bugs, testes. Orquestra os demais agentes. |
+| Scraper | Beatriz | `.github/agents/scraper.agent.md` | Extração de dados web: selectolax, BeautifulSoup4, Playwright. Inspeciona antes de codificar. |
+| Engenheiro de Dados | Rafael | `.github/agents/engenheiro-dados.agent.md` | Pipelines analíticos com Polars, DuckDB e PySpark. Decide a stack certa para cada escala. |
+| Documentador | Ana | `.github/agents/documentador.agent.md` | Documentação MkDocs Material. Consulta docs oficiais via MCP Playwright antes de escrever. |
 
 ## Skills disponíveis
 
+Skills são **referências técnicas** de bibliotecas e frameworks — padrões de uso,
+armadilhas e exemplos de código que os agentes carregam quando necessário.
+
 | Skill | Arquivo | Quando usar |
 |-------|---------|-------------|
-| project-commands | `.github/skills/project-commands/SKILL.md` | Build, test, lint, format, docs |
+| project-commands | `.github/skills/project-commands/SKILL.md` | Build, test, lint, format, docs — comandos uv/taskipy do projeto |
 | httpx | `.github/skills/httpx/SKILL.md` | Clientes HTTP com retry, timeout e autenticação |
-| polars | `.github/skills/polars/SKILL.md` | Pipelines de dados com Polars lazy |
-| webscraping | `.github/skills/webscraping/SKILL.md` | Extração de dados de páginas web |
+| polars | `.github/skills/polars/SKILL.md` | Pipelines de dados com Polars lazy evaluation |
+| duckdb | `.github/skills/duckdb/SKILL.md` | SQL analítico sobre arquivos Parquet/CSV/JSON |
+| pyspark | `.github/skills/pyspark/SKILL.md` | Processamento distribuído para dados >50GB |
+| webscraping | `.github/skills/webscraping/SKILL.md` | Extração de dados web: decisão de stack e padrões |
+| copilot-project-structure | `.github/skills/copilot-project-structure/SKILL.md` | Filosofia e guia para estruturar projetos com agentes, skills, instruções e prompt files |
 
 ## Instruções customizadas por contexto
 
