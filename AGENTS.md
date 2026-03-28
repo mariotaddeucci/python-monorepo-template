@@ -58,13 +58,20 @@ Resumo rápido:
 
 | Agente | Arquivo | Responsabilidade |
 |--------|---------|-----------------|
-| Documentador | `.github/agents/documentador.agent.md` | Gerar e manter documentação MkDocs Material consultando a documentação oficial via Playwright |
+| Desenvolvedor Python | `.github/agents/desenvolvedor.agent.md` | Agente geral para implementação, refatoração e correção de bugs Python. Orquestra subagentes especializados. |
+| httpx-dev | `.github/agents/httpx-dev.agent.md` | Especialista em HTTP com httpx, httpx-retries e tenacity. |
+| polars-dev | `.github/agents/polars-dev.agent.md` | Especialista em dados tabulares com Polars (lazy evaluation). |
+| scraper-dev | `.github/agents/scraper-dev.agent.md` | Especialista em web scraping (selectolax, BeautifulSoup4, Playwright). |
+| Documentador | `.github/agents/documentador.agent.md` | Gera e mantém documentação MkDocs Material consultando a documentação oficial via Playwright. |
 
 ## Skills disponíveis
 
 | Skill | Arquivo | Quando usar |
 |-------|---------|-------------|
 | project-commands | `.github/skills/project-commands/SKILL.md` | Build, test, lint, format, docs |
+| httpx | `.github/skills/httpx/SKILL.md` | Clientes HTTP com retry, timeout e autenticação |
+| polars | `.github/skills/polars/SKILL.md` | Pipelines de dados com Polars lazy |
+| webscraping | `.github/skills/webscraping/SKILL.md` | Extração de dados de páginas web |
 
 ## Instruções customizadas por contexto
 
